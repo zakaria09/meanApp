@@ -22,11 +22,14 @@ app.use((req, res, next) => {
     );
     res.setHeader(
     'Access-Control-Allow-Methods', 
-    'GET, POST, PATCH, DELETE, OPTIONS'
+    'GET, POST, PATCH, PUT, DELETE, OPTIONS'
     );
     next();
 })
+
 // Zc9T0p2g3aGwZLKQ
+
+// create
 app.post('/api/posts', (req, res, use) => {
      const post = new Post({
          title: req.body.title,
@@ -40,6 +43,21 @@ app.post('/api/posts', (req, res, use) => {
      });
 });
 
+// update 
+app.put('/api/posts/:id', (req, res, next) => {
+    const post = new Post({
+        _id: req.body.id,
+        title: req.body.title,
+        content: `${req.body.content} (edited)`
+    });
+    Post.updateOne({ _id: req.params.id }, post)
+        .then(result => {
+            console.log(result)
+            res.status(200).json({ message: 'Updated Successfully!' });
+        });
+});
+
+// get
 app.get('/api/posts' ,(req, res, next) => {
     Post.find()
         .then(documents => {
@@ -53,7 +71,20 @@ app.get('/api/posts' ,(req, res, next) => {
             console.log(error);
         });
 });
+
+app.get('api/posts/:id', (req, res, next) => {
+    Posts.findById(req.params.id).then(post => {
+        if (post) {
+            res.status(200).json(post);
+        } else {
+            console.log('not found')
+            res.status(404).json({ message: 'Post not found' });
+        }
+    })
+});
+
 // api/posts/someid
+// delete
 app.delete('/api/posts/:id', (req, res, next) => {
     Post.deleteOne({ _id: req.params.id })
         .then(result => console.log(result))
