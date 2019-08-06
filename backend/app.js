@@ -4,7 +4,7 @@ const app = express();
 const mongoose = require('mongoose');
 const postsRoutes = require('./models/routes/posts');
 
-mongoose.connect('mongodb+srv://zak:Zc9T0p2g3aGwZLKQ@cluster0-ykygt.mongodb.net/mean-stack?retryWrites=true&w=majority')
+mongoose.connect('mongodb+srv://zak:Zc9T0p2g3aGwZLKQ@cluster0-ykygt.mongodb.net/mean-stack?retryWrites=true&w=majority', {     useNewUrlParser: true   })
     .then(() => {
         console.log('Connected to the Database');
     })
