@@ -18,3 +18,12 @@ mat-spinner {
 .post-image img {
   width: 100%;
 }
+
+.card {
+  max-width: 800px;
+  text-align: center;
+  border: #e6e5e6 solid 1px;
+  padding: 1em;
+  box-shadow: 0.2em 0.3em hsla(0, 0%, 82%, 0.5);
+  margin-bottom: 1.5em;
+}
