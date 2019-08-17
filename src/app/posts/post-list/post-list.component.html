@@ -1,11 +1,11 @@
 <mat-spinner *ngIf="isLoading"></mat-spinner>
-<section>
+<section fxLayout="column" fxLayoutAlign="space-evenly center">
   <mat-card class="card" *ngFor="let post of posts">
     <a mat-button>
       <mat-card-title>
         {{ post.title }}
       </mat-card-title>
-      <img [src]="post.imagePath" [alt]="post.title" mat-card-image>
+      <img class="post-image" [src]="post.imagePath" [alt]="post.title" mat-card-image>
       <mat-card-content>
         {{ post.content }}
       </mat-card-content>
@@ -15,5 +15,12 @@
       <button mat-button color="warn" (click)="onDelete(post.id)">DELETE</button>
     </mat-card-actions>
   </mat-card>
+  <mat-paginator 
+    [length]="totalPosts"
+    [pageSize]="postsPerPage"
+    [pageSizeOptions]="pageSize"
+    (page)="onChangePage($event)"
+    *ngIf="(posts.length > 0)">
+  </mat-paginator>
 </section>
 <p class="info-text mat-body-1" *ngIf="(posts.length <= 0 && !isLoading)">No posts added yet!</p>

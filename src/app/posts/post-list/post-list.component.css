@@ -1,29 +1,19 @@
-:host {
-  display: block;
-  margin-top: 1rem;
-}
-
-.info-text {
-  text-align: center;
-}
-
 mat-spinner {
   margin: auto;
 }
 
 .post-image {
-  width: 100%;
+  max-width: 70%;
 }
 
 .post-image img {
-  width: 100%;
+  width: 75%;
 }
 
 .card {
-  max-width: 800px;
-  text-align: center;
+  min-width: 100%;
   border: #e6e5e6 solid 1px;
-  padding: 1em;
+  padding: 0.5em;
   box-shadow: 0.2em 0.3em hsla(0, 0%, 82%, 0.5);
   margin-bottom: 1.5em;
 }

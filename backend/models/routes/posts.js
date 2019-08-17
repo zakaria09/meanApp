@@ -23,7 +23,7 @@ const storage = multer.diskStorage({
         const name = file.originalname.toLocaleLowerCase().split(' ').join('-');
         const ext = MIME_TYPE_MAP[file.mimetype];
         cb(null, name + '-' + Date.now() + '.' + ext);
-        console.log(ext)
+        //console.log(ext)
     }
 });
 
@@ -60,7 +60,7 @@ router.put('/:id', multer({ storage: storage }).single('image'), (req, res, next
         content: `${req.body.content} (edited)`,
         imagePath: imagePath
     });
-    console.log(post);
+    //console.log(post);
     Post.updateOne({ _id: req.params.id }, post)
         .then(result => {
             console.log(result)
@@ -70,17 +70,28 @@ router.put('/:id', multer({ storage: storage }).single('image'), (req, res, next
 
 // get
 router.get('' ,(req, res, next) => {
-   Post.find()
-       .then(documents => {
-           res.status(200).json({
-               message: 'Posts fetched successfully!',
-               posts: documents 
-           })
-       })
-       .catch(error => {
-           console.log(error);
-       });
-});
+   const pageSize = +req.query.pagesize;
+   const currentPage = +req.query.page;
+   const pageQuery = Post.find();
+   let fetchedPosts;
+   if (currentPage && pageSize) {
+      pageQuery
+         .skip(pageSize * (currentPage - 1))
+         .limit(pageSize);
+   }
+   pageQuery
+      .then(documents => {
+         fetchedPosts = documents
+         return Post.count()
+      })
+      .then(count => {
+         res.status(200).json({
+            message: "Post fetched successfully!",
+            posts: fetchedPosts,
+            maxPosts:  count
+         })
+      });
+})
 
 router.get('/:id', (req, res, next) => {
    Post.findById(req.params.id).then(post => {
