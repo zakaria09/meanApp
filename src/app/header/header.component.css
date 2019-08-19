@@ -12,3 +12,7 @@ a {
 .spacer {
     flex: 1 1 auto;
 }
+
+li {
+    margin: 0 0.5em;
+}

@@ -1,0 +1,8 @@
+.signin {
+    padding: 2rem;
+}
+
+mat-card-actions {
+    text-align: center;
+    margin: 1em;
+}

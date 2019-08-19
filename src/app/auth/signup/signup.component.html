@@ -1,0 +1,45 @@
+<section class="signup">
+  <mat-card>
+    <mat-card-title fxLayoutAlign="center">Sign Up</mat-card-title>
+    <form 
+      fxLayout="column" 
+      fxLayoutAlign="center center" 
+      fxLayoutGap="10px" 
+      [formGroup]="signupForm"
+      (ngSubmit)="onSubmit()">
+      <mat-form-field>
+        <input 
+        type="name" 
+        matInput 
+        placeholder="Your Full Name" 
+        name="name"
+        formControlName="displayName">
+        <mat-error>Field must not be empty!</mat-error>
+        <mat-error>email is invalid!</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input 
+        type="email" 
+        matInput 
+        placeholder="Your Email" 
+        name="email"
+        formControlName="email">
+        <mat-error>Field must not be empty!</mat-error>
+        <mat-error>email is invalid!</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input 
+        type="password"
+        matInput
+        placeholder="Your password"
+        name="password"
+        minlength="6"
+        formControlName="password">
+        <mat-error>Password must be at leats 6 characters long</mat-error>
+        <mat-hint>Password must be at least 6 characters long</mat-hint>
+      </mat-form-field>
+      <button type="submit" mat-raised-button color="primary" [disabled]="signupForm.invalid">Submit</button>
+      <!-- <mat-spinner *ngIf="isLoading"></mat-spinner> displayName -->
+    </form>
+  </mat-card>
+</section>
