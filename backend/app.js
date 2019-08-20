@@ -3,7 +3,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const mongoose = require('mongoose');
-const postsRoutes = require('./models/routes/posts');
+
+const postsRoutes = require('./routes/posts');
+const userRoutes = require('./routes/user');
 
 mongoose.connect('mongodb+srv://zak:Zc9T0p2g3aGwZLKQ@cluster0-ykygt.mongodb.net/mean-stack?retryWrites=true&w=majority', {     useNewUrlParser: true   })
     .then(() => {
@@ -30,5 +32,6 @@ app.use((req, res, next) => {
 })
 
 app.use('/api/posts', postsRoutes);
+app.use('/api/user', userRoutes);
 
 module.exports = app;
