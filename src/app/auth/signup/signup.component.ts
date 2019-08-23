@@ -29,7 +29,7 @@ export class SignupComponent implements OnInit {
     if (this.signupForm.invalid) {
       return;
     }
-    let { displayName, email, password } = this.signupForm.value;
+    const { displayName, email, password } = this.signupForm.value;
     this.authService.createUser(displayName, email, password);
     this.signupForm.reset();
   }

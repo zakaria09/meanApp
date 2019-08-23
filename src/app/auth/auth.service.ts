@@ -18,8 +18,18 @@ export class AuthService {
       name: name,
       email: email,
       password: password
-    }; 
+    };
     this.http.post(`${this.url}/signup`, authData)
-      .subscribe(result => console.log(result))
+    .subscribe(result => console.log(result))
+  }
+
+  loginUser(email: string, password: string) {
+    const authData: AuthData = {
+      name: name,
+      email: email,
+      password: password
+    };
+    this.http.post(`${this.url}/signin`, authData)
+      .subscribe(response => console.log(response));
   }
 }
