@@ -7,12 +7,16 @@ import { AuthData } from './auth-data.model';
 })
 export class AuthService {
 
-  url = 'http://localhost:3000/api/user';
-
+  private url = 'http://localhost:3000/api/user';
+  private token;
+  
+  get getToken() { return this.token; }
+  
   constructor(
     private http: HttpClient
-  ) { }
+    ) { }
 
+    
   createUser(name: string, email: string, password: string) {
     const authData: AuthData = {
       name: name,
@@ -29,7 +33,10 @@ export class AuthService {
       email: email,
       password: password
     };
-    this.http.post(`${this.url}/signin`, authData)
-      .subscribe(response => console.log(response));
+    this.http.post<{token: string}>(`${this.url}/signin`, authData)
+      .subscribe(response => {
+        const token = response.token;
+        this.token = token;
+      });
   }
 }
