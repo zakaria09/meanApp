@@ -4,27 +4,31 @@
     </span>
     <span class="spacer"></span>
     <ul fxHide.lt-md="true" fxLayout="row" fxLayoutAlign="space-evenly center" >
-        <li>
+        <li *ngIf="currentUserIsAuth">
             <a mat-button routerLink="/create" routerLinkActive="mat-accent">
                 <mat-icon matTooltip="Add a new image">add</mat-icon>
             </a>
         </li>
-        <li>
+        <li *ngIf="!currentUserIsAuth">
             <button mat-raised-button routerLink="/signin">Sign In</button>
         </li>
         <li>
-            <button mat-raised-button routerLink="/signup" color="accent">Sign Up</button>
+            <button *ngIf="!currentUserIsAuth" mat-raised-button routerLink="/signup" color="accent">Sign Up</button>
+        </li>
+        <li *ngIf="currentUserIsAuth">
+            <button mat-raised-button color="accent">Logout</button>
         </li>
     </ul>
     <button fxHide.gt-sm="true" mat-button [matMenuTriggerFor]="menu">
         <mat-icon matTooltip="Add a new image">dehaze</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-        <button mat-menu-item routerLink="/create" routerLinkActive="mat-accent">
+        <button *ngIf="currentUserIsAuth" mat-menu-item routerLink="/create" routerLinkActive="mat-accent">
             <mat-icon matTooltip="Add a new image">add</mat-icon>
             <mat-label>Upload Image</mat-label>
         </button>
-        <button mat-menu-item routerLink="/signin">Sign In</button>
-        <button mat-menu-item routerLink="/signup" color="accent">Sign Up</button>
+        <button *ngIf="!currentUserIsAuth" mat-menu-item routerLink="/signin">Sign In</button>
+        <button *ngIf="!currentUserIsAuth" mat-menu-item routerLink="/signup" color="accent">Sign Up</button>
+        <button *ngIf="currentUserIsAuth" mat-menu-item color="accent">Logout</button>
     </mat-menu>
 </mat-toolbar>
