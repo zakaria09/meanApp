@@ -1,14 +1,14 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { Post } from "../post.model";
-import { PostsService } from "../posts.service";
-import { AuthService } from "src/app/auth/auth.service";
+import { Post } from '../post.model';
+import { PostsService } from '../posts.service';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
-  selector: "app-post-list",
-  templateUrl: "./post-list.component.html",
-  styleUrls: ["./post-list.component.css"]
+  selector: 'app-post-list',
+  templateUrl: './post-list.component.html',
+  styleUrls: ['./post-list.component.css']
 })
 export class PostListComponent implements OnInit, OnDestroy {
 
@@ -38,7 +38,7 @@ export class PostListComponent implements OnInit, OnDestroy {
       });
     this.currentUserIsAuth = this.authService.authStatus;
     this.authListenerSubs = this.authService.authState
-      .subscribe(isAuth => this.currentUserIsAuth = isAuth); //true upon siginin
+      .subscribe(isAuth => this.currentUserIsAuth = isAuth); // true upon siginin
   }
 
   onDelete(postId: string) {
@@ -62,5 +62,6 @@ export class PostListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.postsSub.unsubscribe();
+    this.authListenerSubs.unsubscribe();
   }
 }
