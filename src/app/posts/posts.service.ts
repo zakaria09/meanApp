@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Subject, interval } from 'rxjs';
+import { map, retryWhen } from 'rxjs/operators';
 import { Post } from './post.model';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -19,10 +19,11 @@ export class PostsService {
     const queryParams = `?pagesize=${postPerPage}&page=${currentPage}`;
     this.http
       .get<{message: string, posts: any, maxPosts: number}>('http://localhost:3000/api/posts' + queryParams)
-      .pipe(
+      // keep resubscribing (retrying) if request fails
+      .pipe(retryWhen(() => interval(5000)),
         map(postData => {
           return { posts: postData.posts.map(post => {
-            return { 
+            return {
               id: post._id,
               title: post.title,
               content: post.content,
@@ -49,7 +50,7 @@ export class PostsService {
 
   addPost(title, content, image: File) {
     const postData = new FormData();
-    postData.append('title', title);    
+    postData.append('title', title);
     postData.append('content', content);
     postData.append('image', image, title);
     this.http.post<{message: string, post: Post}>('http://localhost:3000/api/posts', postData)
