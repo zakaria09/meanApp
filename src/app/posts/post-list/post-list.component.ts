@@ -49,6 +49,10 @@ export class PostListComponent implements OnInit, OnDestroy {
       });
   }
 
+  onDownload(postId: string) {
+    console.log(postId);
+  }
+
   onChangePage(pageData) {
     this.isLoading = true;
     this.currentPage = pageData.pageIndex + 1;

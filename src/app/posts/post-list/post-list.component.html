@@ -11,11 +11,14 @@
       </mat-card-content>
     </a>
     <mat-card-actions>
-      <a mat-button *ngIf="currentUserIsAuth" color="primary" [routerLink]="['/edit', post.id]">EDIT</a>
-      <button mat-button *ngIf="currentUserIsAuth" color="warn" (click)="onDelete(post.id)">DELETE</button>
+      <div class="acions">
+        <a mat-button color="primary" [routerLink]="['/edit', post.id]"><mat-icon>edit</mat-icon></a>
+        <button mat-button color="warn" (click)="onDelete(post.id)"><mat-icon>delete</mat-icon></button>
+      </div>
+      <button mat-button class="download" color="accent" (click)="onDownload(post.id)"><mat-icon>cloud_download</mat-icon></button>
     </mat-card-actions>
   </mat-card>
-  <mat-paginator 
+  <mat-paginator
     [length]="totalPosts"
     [pageSize]="postsPerPage"
     [pageSizeOptions]="pageSize"
