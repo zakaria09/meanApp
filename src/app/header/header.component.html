@@ -16,7 +16,7 @@
             <button *ngIf="!currentUserIsAuth" mat-raised-button routerLink="/signup" color="accent">Sign Up</button>
         </li>
         <li *ngIf="currentUserIsAuth">
-            <button mat-raised-button color="accent">Logout</button>
+            <button (click)="onSignout()" mat-raised-button color="accent">Logout</button>
         </li>
     </ul>
     <button fxHide.gt-sm="true" mat-button [matMenuTriggerFor]="menu">
@@ -29,6 +29,6 @@
         </button>
         <button *ngIf="!currentUserIsAuth" mat-menu-item routerLink="/signin">Sign In</button>
         <button *ngIf="!currentUserIsAuth" mat-menu-item routerLink="/signup" color="accent">Sign Up</button>
-        <button *ngIf="currentUserIsAuth" mat-menu-item color="accent">Logout</button>
+        <button *ngIf="currentUserIsAuth" (click)="onSignout()" mat-menu-item color="accent">Logout</button>
     </mat-menu>
 </mat-toolbar>

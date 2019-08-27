@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AuthData } from './auth-data.model';
 import { Subject } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -12,16 +13,25 @@ export class AuthService {
   private token;
   private isAuthenticated = new Subject<boolean>();
   private isAuth = false;
-  
-  get getToken() { return this.token; }
-  get authState() { return this.isAuthenticated.asObservable(); }
+
+  private set makeAuth(value: boolean) {
+    this.isAuth = value;
+    this.isAuthenticated.next(value);
+  }
+
+  get authState() {
+    if(this.getToken) {this.makeAuth = true;}
+    return this.isAuthenticated.asObservable();
+  }
+  get getToken() { return localStorage.getItem('token'); }
   get authStatus() { return this.isAuth; }
-  
+
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router
     ) { }
 
-    
+
   createUser(name: string, email: string, password: string) {
     const authData: AuthData = {
       name: name,
@@ -29,7 +39,7 @@ export class AuthService {
       password: password
     };
     this.http.post(`${this.url}/signup`, authData)
-    .subscribe(result => console.log(result))
+      .subscribe(result => console.log(result));
   }
 
   loginUser(email: string, password: string) {
@@ -43,10 +53,16 @@ export class AuthService {
         const token = response.token;
         this.token = token;
         if (token) {
-          this.isAuth = true; 
-          this.isAuthenticated.next(true);
+          this.makeAuth = true;
+          this.router.navigate(['']);
         }
+        localStorage.setItem('token', this.token);
       });
-    //redirect
+  }
+
+  logout() {
+    this.token = localStorage.removeItem('token');
+    this.router.navigate(['/signin']);
+    this.makeAuth = false;
   }
 }
