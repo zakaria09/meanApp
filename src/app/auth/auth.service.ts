@@ -13,6 +13,7 @@ export class AuthService {
   private token;
   private isAuthenticated = new Subject<boolean>();
   private isAuth = false;
+  private tokenTimer: any;
 
   private set makeAuth(value: boolean) {
     this.isAuth = value;
@@ -48,11 +49,16 @@ export class AuthService {
       email: email,
       password: password
     };
-    this.http.post<{token: string}>(`${this.url}/signin`, authData)
+    this.http.post<{token: string, expiresIn: number}>(`${this.url}/signin`, authData)
       .subscribe(response => {
         const token = response.token;
         this.token = token;
         if (token) {
+          const expirationDuration = response.expiresIn;
+          this.tokenTimer = setTimeout(
+            () => this.logout(),
+            expirationDuration * 1000
+          );
           this.makeAuth = true;
           this.router.navigate(['']);
         }
@@ -62,7 +68,8 @@ export class AuthService {
 
   logout() {
     this.token = localStorage.removeItem('token');
-    this.router.navigate(['/signin']);
     this.makeAuth = false;
+    clearTimeout(this.tokenTimer);
+    this.router.navigate(['/signin']);
   }
 }
