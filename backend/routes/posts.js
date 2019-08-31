@@ -1,7 +1,8 @@
 const express = require('express');
 const Post = require('../models/post');
 const multer = require('multer');
-const checkAuth = require('../middleware/check-auth')
+const checkAuth = require('../middleware/check-auth');
+const path = require('path');
 
 const router = express.Router();
 
@@ -11,6 +12,7 @@ const MIME_TYPE_MAP = {
     'image/jpg': 'jpg'
 };
 
+// upload images
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         const isValid = MIME_TYPE_MAP[file.mimetype];
@@ -26,6 +28,12 @@ const storage = multer.diskStorage({
         cb(null, name + '-' + Date.now() + '.' + ext);
         //console.log(ext)
     }
+});
+
+// download images
+router.post('/download', (req, res, body) => {
+    const filePath = `${path.join(__dirname, '../images')}/${req.body.filename}`;
+    res.sendFile(filePath);
 });
 
 // create
@@ -77,7 +85,7 @@ router.put('/:id',
         });
 });
 
-// get
+// get requeted page
 router.get('' ,
     (req, res, next) => {
         const pageSize = +req.query.pagesize;
@@ -103,6 +111,7 @@ router.get('' ,
       });
 })
 
+// get by id
 router.get('/:id', (req, res, next) => {
    Post.findById(req.params.id).then(post => {
        if (post) {
@@ -114,7 +123,6 @@ router.get('/:id', (req, res, next) => {
    })
 });
 
-// api/posts/someid
 // delete
 router.delete('/:id',
     checkAuth,

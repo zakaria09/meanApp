@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { Post } from '../post.model';
 import { PostsService } from '../posts.service';
 import { AuthService } from 'src/app/auth/auth.service';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-post-list',
@@ -49,8 +50,14 @@ export class PostListComponent implements OnInit, OnDestroy {
       });
   }
 
-  onDownload(postId: string) {
-    console.log(postId);
+  onDownload(ImagePathUrl: string) {
+    const relativePath = ImagePathUrl.split('images');
+    const path = relativePath.join().split('/')[4];
+    this.postsService.downloadImage(path)
+      .subscribe(
+        res => saveAs(res, path),
+        error => console.log(error)
+      );
   }
 
   onChangePage(pageData) {

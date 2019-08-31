@@ -1,6 +1,6 @@
 <mat-spinner *ngIf="isLoading"></mat-spinner>
 <section fxLayout="column" fxLayoutAlign="space-evenly center">
-  <mat-card class="card" *ngFor="let post of posts">
+  <mat-card class="card" *ngFor="let post of posts; let i = index">
     <a mat-button>
       <mat-card-title>
         {{ post.title }}
@@ -15,7 +15,7 @@
         <a *ngIf="currentUserIsAuth" mat-button color="primary" [routerLink]="['/edit', post.id]"><mat-icon>edit</mat-icon></a>
         <button *ngIf="currentUserIsAuth" mat-button color="warn" (click)="onDelete(post.id)"><mat-icon>delete</mat-icon></button>
       </div>
-      <button mat-button class="download" color="accent" (click)="onDownload(post.id)"><mat-icon>cloud_download</mat-icon></button>
+      <button mat-button class="download" color="accent" (click)="onDownload(post.imagePath)"><mat-icon>cloud_download</mat-icon></button>
     </mat-card-actions>
   </mat-card>
   <mat-paginator

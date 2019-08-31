@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject, interval } from 'rxjs';
 import { map, retryWhen } from 'rxjs/operators';
 import { Post } from './post.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 @Injectable({providedIn: 'root'})
@@ -83,5 +83,13 @@ export class PostsService {
 
   deletePost(postId: string) {
     return this.http.delete(`http://localhost:3000/api/posts/${postId}`)
+  }
+
+  downloadImage(imagePath: string) {
+    const body = { filename: imagePath };
+    return this.http.post('http://localhost:3000/api/posts/download', body, {
+       responseType: "blob",
+       headers: new HttpHeaders().append('Content-Type', 'application/json')
+    });
   }
 }
