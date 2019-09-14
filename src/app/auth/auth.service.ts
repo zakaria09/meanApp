@@ -10,11 +10,11 @@ import { Router } from '@angular/router';
 export class AuthService {
 
   private url = 'http://localhost:3000/api/user';
-  private token;
+  private token: string;
   private isAuthenticated = new Subject<boolean>();
   private isAuth = false;
   private tokenTimer: any;
-
+  
   private set makeAuth(value: boolean) {
     this.isAuth = value;
     this.isAuthenticated.next(value);
@@ -24,6 +24,7 @@ export class AuthService {
     if(this.getToken) {this.makeAuth = true;}
     return this.isAuthenticated.asObservable();
   }
+  get userId() { return localStorage.getItem('userId'); }
   get getToken() { return localStorage.getItem('token'); }
   get authStatus() { return this.isAuth; }
 
@@ -49,7 +50,7 @@ export class AuthService {
       email: email,
       password: password
     };
-    this.http.post<{token: string, expiresIn: number}>(`${this.url}/signin`, authData)
+    this.http.post<{token: string, expiresIn: number, userId: string}>(`${this.url}/signin`, authData)
       .subscribe(response => {
         const token = response.token;
         this.token = token;
@@ -57,9 +58,10 @@ export class AuthService {
           const expirationDuration = response.expiresIn;
           this.setAuthTimer(expirationDuration);
           this.makeAuth = true;
+          const userId = response.userId;
           const now = new Date();
           const expirationDate = new Date(now.getTime() + expirationDuration * 1000);
-          this.saveAuthData(token, expirationDate)
+          this.saveAuthData(token, expirationDate, userId);
           this.router.navigate(['']);
         }
       });
@@ -70,10 +72,13 @@ export class AuthService {
     if (!authInformation) return;
     const now = new Date();
     const expiresIn = authInformation.expirationDate.getTime() - now.getTime();
+    console.log((expiresIn))
     if (expiresIn > 0) {
       this.token = authInformation.token;
       this.makeAuth = true;
       this.setAuthTimer(expiresIn / 1000);
+    } else {
+      this.logout();
     }
   }
 
@@ -91,14 +96,16 @@ export class AuthService {
     );
   }
 
-  private saveAuthData(token: string, expirationDate: Date) {
+  private saveAuthData(token: string, expirationDate: Date, userId: string) {
     localStorage.setItem('token', token);    
-    localStorage.setItem('expiration', expirationDate.toISOString());    
+    localStorage.setItem('expiration', expirationDate.toISOString());
+    localStorage.setItem('userId', userId);
   }
-
+  
   private clearAuthData() {
     localStorage.removeItem('token');
     localStorage.removeItem('expiration');
+    localStorage.removeItem('userId');
   }
   
   private get authData() {

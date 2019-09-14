@@ -27,6 +27,7 @@ import { AppRoutingModule } from "./app-routing.module";
 import { SigninComponent } from './auth/signin/signin.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { AuthInterceptor } from "./auth/auth-interceptor";
+import { MyPhotosPipePipe } from './pipes/my-photos-pipe.pipe';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { AuthInterceptor } from "./auth/auth-interceptor";
     HeaderComponent,
     PostListComponent,
     SigninComponent,
-    SignupComponent
+    SignupComponent,
+    MyPhotosPipePipe
   ],
   imports: [
     BrowserModule,

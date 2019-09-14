@@ -1,6 +1,6 @@
 <mat-spinner *ngIf="isLoading"></mat-spinner>
 <section fxLayout="column" fxLayoutAlign="space-evenly center">
-  <mat-card class="card" *ngFor="let post of posts; let i = index">
+  <mat-card class="card" *ngFor="let post of posts | myPhotosPipe: userId; let i = index;">
     <a mat-button>
       <mat-card-title>
         {{ post.title }}
@@ -18,6 +18,9 @@
       <button mat-button class="download" color="accent" (click)="onDownload(post.imagePath)"><mat-icon>cloud_download</mat-icon></button>
     </mat-card-actions>
   </mat-card>
+  <ng-template #noImages>
+    <h3>You haven't added any Imagess yet!</h3>
+  </ng-template>
   <mat-paginator
     [length]="totalPosts"
     [pageSize]="postsPerPage"
@@ -26,4 +29,4 @@
     *ngIf="(posts.length > 0)">
   </mat-paginator>
 </section>
-<p class="info-text mat-body-1" *ngIf="(posts.length <= 0 && !isLoading)">No posts added yet!</p>
+<!-- <p class="info-text mat-body-1" *ngIf="(posts.length <= 0 && !isLoading)">No posts added yet!</p> -->
