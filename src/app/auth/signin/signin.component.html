@@ -1,7 +1,7 @@
 <section class="signin">
-    <mat-card>
+    <mat-card *ngIf="!isLoading">
         <mat-card-title fxLayoutAlign="center">Sign In</mat-card-title>
-        <form 
+        <form
         fxLayout="column" 
         fxLayoutAlign="center center" 
         fxLayoutGap="10px" 
@@ -28,4 +28,5 @@
             <button mat-button color="primary" (click)="openModal()">Forgot Password?</button>
         </mat-card-actions>
     </mat-card>
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
 </section>

@@ -11,7 +11,7 @@ export class AuthService {
 
   private url = 'http://localhost:3000/api/user';
   private token: string;
-  private isAuthenticated = new Subject<boolean>();
+  isAuthenticated = new Subject<boolean>();
   private isAuth = false;
   private tokenTimer: any;
   
@@ -41,7 +41,16 @@ export class AuthService {
       password: password
     };
     this.http.post(`${this.url}/signup`, authData)
-      .subscribe(result => console.log(result));
+      .subscribe(
+        (response: {message: string}) => {
+          // add snackbar here
+          console.log(response.message)
+          this.router.navigate(['/'])
+        },
+        // object destructor
+        // kind, value
+        error => this.isAuthenticated.next(false)
+      );
   }
 
   loginUser(email: string, password: string) {
@@ -62,9 +71,9 @@ export class AuthService {
           const now = new Date();
           const expirationDate = new Date(now.getTime() + expirationDuration * 1000);
           this.saveAuthData(token, expirationDate, userId);
-          this.router.navigate(['']);
+          this.router.navigate(['/']);
         }
-      });
+      }, error => this.isAuthenticated.next(false));
   }
 
   autoAuthUser() {

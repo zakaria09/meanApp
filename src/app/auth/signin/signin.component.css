@@ -6,3 +6,7 @@ mat-card-actions {
     text-align: center;
     margin: 1em;
 }
+
+mat-spinner {
+    text-align: center;
+}

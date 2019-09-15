@@ -74,7 +74,8 @@ router.put('/:id',
                 _id: req.body.id,
                 title: req.body.title,
                 content: `${req.body.content} (edited)`,
-                imagePath: imagePath
+                imagePath: imagePath,
+                creator: req.userData.userId
         });
 
     Post.updateOne({ _id: req.params.id }, post)

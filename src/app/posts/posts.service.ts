@@ -74,6 +74,7 @@ export class PostsService {
         title: title,
         content: content,
         imagePath: image,
+        creator: null
       };
     }
     this.http.put(`http://localhost:3000/api/posts/${id}`, postData)

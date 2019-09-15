@@ -1,7 +1,7 @@
 <section class="signup">
-  <mat-card>
+  <mat-card *ngIf="!isLoading">
     <mat-card-title fxLayoutAlign="center">Sign Up</mat-card-title>
-    <form 
+    <form
       fxLayout="column" 
       fxLayoutAlign="center center" 
       fxLayoutGap="10px" 
@@ -39,7 +39,7 @@
         <mat-hint>Password must be at least 6 characters long</mat-hint>
       </mat-form-field>
       <button type="submit" mat-raised-button color="primary" [disabled]="signupForm.invalid">Submit</button>
-      <!-- <mat-spinner *ngIf="isLoading"></mat-spinner> displayName -->
     </form>
   </mat-card>
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
 </section>
