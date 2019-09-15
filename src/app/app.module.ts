@@ -15,7 +15,8 @@ import {
   MatPaginatorModule,
   MatIconModule,
   MatTooltipModule,
-  MatMenuModule
+  MatMenuModule,
+  MatSnackBarModule
 } from "@angular/material";
 
 import { AppComponent } from "./app.component";
@@ -26,8 +27,9 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AppRoutingModule } from "./app-routing.module";
 import { SigninComponent } from './auth/signin/signin.component';
 import { SignupComponent } from './auth/signup/signup.component';
-import { AuthInterceptor } from "./auth/auth-interceptor";
+import { AuthInterceptor } from "./interceptors/auth-interceptor";
 import { MyPhotosPipePipe } from './pipes/my-photos-pipe.pipe';
+import { ErrorInterceptor } from "../app/interceptors/error-interceptor";
 
 @NgModule({
   declarations: [
@@ -56,12 +58,18 @@ import { MyPhotosPipePipe } from './pipes/my-photos-pipe.pipe';
     MatPaginatorModule,
     MatIconModule,
     MatTooltipModule,
-    MatMenuModule
+    MatMenuModule,
+    MatSnackBarModule
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptor,
       multi: true
     }
   ],

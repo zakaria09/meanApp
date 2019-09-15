@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject, interval } from 'rxjs';
 import { map, retryWhen } from 'rxjs/operators';
-import { Post } from './post.model';
+import { Post } from '../posts/post.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 

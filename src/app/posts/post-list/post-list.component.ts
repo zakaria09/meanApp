@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { Post } from '../post.model';
-import { PostsService } from '../posts.service';
-import { AuthService } from 'src/app/auth/auth.service';
+import { PostsService } from '../../services/posts.service';
+import { AuthService } from '../../services/auth.service';
 import { saveAs } from 'file-saver';
 
 @Component({
